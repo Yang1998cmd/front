@@ -2,7 +2,7 @@
   <div> 
     <el-backtop></el-backtop>
 <el-menu default-active="/hotWeibo" class="el-menu-demo"  mode="horizontal" @select="handleSelect" :router="true">
-  <el-menu-item index="" ><i class="el-icon-chat-line-square"></i></el-menu-item>
+  <el-menu-item index="/" ><i class="el-icon-chat-line-square"></i></el-menu-item>
   <el-menu-item index="/Home" >首页</el-menu-item>
   <el-menu-item index="/Attention">关注</el-menu-item>
   <el-menu-item index="/hotWeibo">热搜</el-menu-item>
@@ -22,8 +22,8 @@
         <div style="height:30px"></div>
         <el-row > 
          <el-card v-for="(item,i) in hot.hot" :key="i" >
-            <div style="cursor: pointer" @click="search2(item)">
-                <span >{{item}}</span><i class="el-icon-trophy" style="float:right"></i>
+            <div style="cursor: pointer" @click="search2(item[0])">
+                <span style="font-size: 20px">{{item[0]}}</span><span style="color:red;margin-left:30px;">{{item[1]}}</span><i class="el-icon-trophy" style="float:right"></i>
             </div>
          </el-card>
         </el-row>

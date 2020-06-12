@@ -2,7 +2,7 @@
   <div> 
     <el-backtop></el-backtop>
 <el-menu default-active="#" class="el-menu-demo"  mode="horizontal" @select="handleSelect" :router="true">
-  <el-menu-item index="" ><i class="el-icon-chat-line-square"></i></el-menu-item>
+  <el-menu-item index="/" ><i class="el-icon-chat-line-square"></i></el-menu-item>
   <el-menu-item index="/Home" >首页</el-menu-item>
   <el-menu-item index="/Attention">关注</el-menu-item>
   <el-menu-item index="" @click="toHot">热搜</el-menu-item>
@@ -118,7 +118,7 @@
            <el-col>
                <el-divider></el-divider>
            <el-row v-for="(it,i) in hot.hot" :key="i">
-               <div v-if="i<5" style="width:200px; height:50px;line-height:50px;cursor: pointer" @click="search2(it)">{{it}}</div>
+              <div v-if="i<5" style="width:200px; height:50px;line-height:50px;cursor: pointer" @click="search2(it[0])">{{it[0]}}</div>
            </el-row>  
            </el-col> 
       </el-card> 
@@ -431,7 +431,8 @@ export default {
                 let time= this.dateStr();
                 a.from= this.areaData.myName
                 a.to = this.to
-                a.fromHeadImg = this.areaData.myHeader
+                a.headImg = this.areaData.myHeader
+                a.fromId=this.areaData.myId
                 a.comment =this.replyComment
                 var reply=this.replyComment
                 a.time = time
@@ -604,7 +605,7 @@ export default {
 
    #_card
     margin-top 50px
-    height 300px
+    height 400px
  
    .author_div
     margin-top 2px

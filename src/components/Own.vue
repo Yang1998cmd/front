@@ -3,7 +3,7 @@
   <div id="personal"> 
     <el-backtop></el-backtop>  
 <el-menu default-active="#" class="el-menu-demo"  mode="horizontal" @select="handleSelect" :router="true">
-  <el-menu-item index="" ><i class="el-icon-chat-line-square"></i></el-menu-item>
+  <el-menu-item index="/" ><i class="el-icon-chat-line-square"></i></el-menu-item>
   <el-menu-item index="/Home" >首页</el-menu-item>
   <el-menu-item index="/Attention">关注</el-menu-item>
   <el-menu-item index=""  @click="toHot">热搜</el-menu-item>

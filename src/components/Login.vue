@@ -94,7 +94,7 @@ export default {
               });
               setTimeout(() => {
                 loading.close();
-              }, 5000);
+              }, 3000);
             }   
             else if(response.data=="error0:用户不存在"){
                this.$alert('用户不存在！', '', {

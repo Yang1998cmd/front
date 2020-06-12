@@ -3,7 +3,7 @@
   <div id='home'> 
     <el-backtop></el-backtop>  
 <el-menu default-active="/Home" class="el-menu-demo"  mode="horizontal" @select="handleSelect" :router="true">
-  <el-menu-item index="" ><i class="el-icon-chat-line-square"></i></el-menu-item>
+  <el-menu-item index="/" ><i class="el-icon-chat-line-square"></i></el-menu-item>
   <el-menu-item index="/Home" >首页</el-menu-item>
   <el-menu-item index="/Attention">关注</el-menu-item>
   <el-menu-item index="" @click="toHot">热搜</el-menu-item>
@@ -24,7 +24,7 @@
       <div v-clickoutside="hideReplyBtn" @click="inputFocus" class="my-reply">
             <el-avatar class="header-img" :size="40" :src="areaData.myHeader" style="cursor: pointer" @click.native="TurnToOwn(areaData.myId)"></el-avatar>
             <div class="reply-info" >
-                <div 
+                <el-input 
                 tabindex="0" 
                 contenteditable="true" 
                 id="replyInput" 
@@ -32,9 +32,9 @@
                 placeholder="亲，没有提供草稿箱，请及时发布微博哦..." 
                 class="reply-input" 
                 @focus="showReplyBtn" 
-                @input="onDivInput($event)"
+                v-model="replyComment"      
                 >
-                </div>
+                </el-input>
             </div>
 
             <el-upload
@@ -174,7 +174,7 @@
            <el-col>
                <el-divider></el-divider>
            <el-row v-for="(it,i) in hot.hot" :key="i">
-               <div v-if="i<5" style="width:200px; height:50px;line-height:50px;cursor: pointer" @click="search2(it)">{{it}}</div>
+              <div v-if="i<5" style="width:200px; height:50px;line-height:50px;cursor: pointer" @click="search2(it[0])">{{it[0]}}</div>
            </el-row>  
            </el-col> 
       </el-card> 
@@ -251,6 +251,7 @@ export default {
          console.log(file, fileList);
        },
        handlePictureCardPreview(file) {
+           
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
        },
@@ -267,8 +268,34 @@ export default {
         this.filelist=fileList
         this.$refs.upload.clearFiles()
         console.log(response,file,fileList)    //服务器返回的图片信息，可以提交到表格
+
+        var this_=this
+        this_.filelistnum=0//第一个参数为函数 你可以传入函数名 或一个匿名函数
+        let a ={}
+        let input =  document.getElementById('replyInput')
+        let time= this_.uploadData.time
+        a.name= this_.areaData.myName
+        a.comment =this_.replyComment
+        a.headImg = this_.areaData.myHeader
+        a.time = time
+        a.commentNum = 0
+        a.like = 0 
+        a.img=[]
+                    // console.log(this_.filelist,"test0")
+        for(var i=0;i<this_.filelist.length;i++)
+        {
+                        // console.log(this_.filelist[i].url,"test1")
+            a.img.push(this_.filelist[i].url)
+        }
+                    // console.log(this_.filelist,"test2")
+            this_.areaData.comments.splice(0,0,a)
+            this_.areaData.replyComment = ''
+            input.innerHTML = '';
+
+        this_.replyComment=''
+        this_.weiboCount++
         this.$message({
-          message: '上传成功',
+          message: '发布成功',
           type: 'success'
         })
       },
@@ -296,7 +323,7 @@ export default {
           .then(response => {//后来改的
                     console.log(response.data)
                     this.hot=response.data
-                    console.log(this.hot[0])
+                    console.log(this.hot.hot)
                 }); 
 
         },
@@ -446,30 +473,39 @@ export default {
                  this.uploadData.time=this.dateStr()
                  console.log(this.uploadData.time)
                  this.$refs.upload.submit()
-                 var this_=this
-                 setTimeout(function(){
-                      this_.filelistnum=0//第一个参数为函数 你可以传入函数名 或一个匿名函数
-                      let a ={}
-                    let input =  document.getElementById('replyInput')
-                    let time= this_.uploadData.time
-                    a.name= this_.areaData.myName
-                    a.comment =this_.replyComment
-                    a.headImg = this_.areaData.myHeader
-                    a.time = time
-                    a.commentNum = 0
-                    a.like = 0 
-                    a.img=[]
-                    // console.log(this_.filelist,"test0")
-                    for(var i=0;i<this_.filelist.length;i++)
-                    {
-                        // console.log(this_.filelist[i].url,"test1")
-                        a.img.push(this_.filelist[i].url)
-                    }
-                    // console.log(this_.filelist,"test2")
-                    this_.areaData.comments.splice(0,0,a)
-                    this_.areaData.replyComment = ''
-                    input.innerHTML = '';
-                         },5000);
+                 const loading = this.$loading({
+                    lock: true,
+                    text: 'Loading',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
+                  setTimeout(() => {
+                    loading.close();
+                }, 4000);
+                //  var this_=this
+                //  setTimeout(function(){
+                //       this_.filelistnum=0//第一个参数为函数 你可以传入函数名 或一个匿名函数
+                //       let a ={}
+                //     let input =  document.getElementById('replyInput')
+                //     let time= this_.uploadData.time
+                //     a.name= this_.areaData.myName
+                //     a.comment =this_.replyComment
+                //     a.headImg = this_.areaData.myHeader
+                //     a.time = time
+                //     a.commentNum = 0
+                //     a.like = 0 
+                //     a.img=[]
+                //     // console.log(this_.filelist,"test0")
+                //     for(var i=0;i<this_.filelist.length;i++)
+                //     {
+                //         // console.log(this_.filelist[i].url,"test1")
+                //         a.img.push(this_.filelist[i].url)
+                //     }
+                //     // console.log(this_.filelist,"test2")
+                //     this_.areaData.comments.splice(0,0,a)
+                //     this_.areaData.replyComment = ''
+                //     input.innerHTML = '';
+                //          },5000);
                 
             }
         },
@@ -512,8 +548,9 @@ export default {
                 let a ={}
                 let time= this.dateStr();
                 a.from= this.areaData.myName
+                a.fromId=this.areaData.myId
                 a.to = this.to
-                a.fromHeadImg = this.areaData.myHeader
+                a.headImg = this.areaData.myHeader
                 a.comment =this.replyComment
                 var reply=this.replyComment
                 a.time = time

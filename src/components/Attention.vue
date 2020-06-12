@@ -2,7 +2,7 @@
   <div> 
     <el-backtop></el-backtop>
 <el-menu default-active="/Attention" class="el-menu-demo"  mode="horizontal" @select="handleSelect" :router="true">
-  <el-menu-item index="" ><i class="el-icon-chat-line-square"></i></el-menu-item>
+  <el-menu-item index="/" ><i class="el-icon-chat-line-square"></i></el-menu-item>
   <el-menu-item index="/Home" >首页</el-menu-item>
   <el-menu-item index="/Attention">关注</el-menu-item>
   <el-menu-item index="" @click="toHot">热搜</el-menu-item>
@@ -101,7 +101,7 @@
            <el-col>
                <el-divider></el-divider>
            <el-row v-for="(it,i) in hot.hot" :key="i">
-               <div v-if="i<5" style="width:200px; height:50px;line-height:50px;cursor: pointer" @click="search2(it)">{{it}}</div>
+               <div v-if="i<5" style="width:200px; height:50px;line-height:50px;cursor: pointer" @click="search2(it[0])">{{it[0]}}</div>
            </el-row>  
            </el-col> 
       </el-card> 
@@ -400,8 +400,9 @@ export default {
                 let time= this.dateStr();
                 a.from= this.areaData.myName
                 a.to = this.to
-                a.fromHeadImg = this.areaData.myHeader
+                a.headImg = this.areaData.myHeader
                 a.comment =this.replyComment
+                a.fromId=this.areaData.myId
                 var reply=this.replyComment
                 a.time = time
                 a.commentNum = 0

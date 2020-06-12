@@ -1,7 +1,7 @@
 <template>
   <div id="login">
 <el-menu default-active="#" class="el-menu-demo"  mode="horizontal" @select="handleSelect" >
-  <el-menu-item index="" ><i class="el-icon-chat-line-square"></i></el-menu-item>
+  <el-menu-item index="/" ><i class="el-icon-chat-line-square"></i></el-menu-item>
   <el-menu-item index="/Home" >首页</el-menu-item>
   <el-menu-item index="/Attention">关注</el-menu-item>
   <el-menu-item index="/HotWei" >热搜</el-menu-item>
